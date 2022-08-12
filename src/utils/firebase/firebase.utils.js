@@ -6,9 +6,12 @@ import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
 } from 'firebase/auth';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 
+console.log('IT IS RUNNING');
 const firebaseConfig = {
   apiKey: 'AIzaSyDd7fCqfzsHTBBJEjgdCxyG9g_cjM0d_Rg',
   authDomain: 'crwn-clothing-db-f17f2.firebaseapp.com',
@@ -28,7 +31,10 @@ googleProvider.setCustomParameters({
   prompt: 'select_account',
 });
 
+// The getAuth() function without parameters will use the default initialized instance of Firebase. If you have multiple instances of Firebase i.e. multiple projects, then you must pass the app instance to specify which project's auth that auth instance must use.
 export const auth = getAuth();
+console.log(`AUTH IS HERE!!!!!!!!!!!!!!!!!!`);
+console.log(auth);
 
 export const signInWithGooglePopup = () =>
   signInWithPopup(auth, googleProvider);
@@ -82,5 +88,19 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
 
+  // console.log(auth);
+  // console.log(`EMAIL OF USER THAT AUTHANTICATED: ${auth.currentUser.email}`);
   return await signInWithEmailAndPassword(auth, email, password);
 };
+
+export const signOutUser = async () => {
+  const res = await signOut(auth);
+  console.log(res);
+  console.log(auth);
+  console.log(auth.currentUser);
+};
+
+export const onAuthStateChangedListener = (callback) => {
+  onAuthStateChanged(auth, callback);
+};
+//onAuthStateChange will call this callback whenever the authentication state of auth singleton changes. example: When user signs in that considers a auth change, or user sign out. OnAuthStateChanged is an open listener the moment you set it,  this thing is always waiting to see whether or not the auth state are changing and the moment it does it will run a callback
