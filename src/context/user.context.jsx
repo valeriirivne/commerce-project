@@ -17,7 +17,7 @@ export const UserProvider = ({ children }) => {
   // console.log(currentUser);
   //this value we instantiate as an object we call
   const value = { currentUser, setCurrentUser };
-
+  console.log('we call USER provider ');
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
       if (user) {
