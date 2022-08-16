@@ -11,7 +11,6 @@ import {
 } from 'firebase/auth';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 
-console.log('IT IS RUNNING');
 const firebaseConfig = {
   apiKey: 'AIzaSyDd7fCqfzsHTBBJEjgdCxyG9g_cjM0d_Rg',
   authDomain: 'crwn-clothing-db-f17f2.firebaseapp.com',
@@ -33,8 +32,6 @@ googleProvider.setCustomParameters({
 
 // The getAuth() function without parameters will use the default initialized instance of Firebase. If you have multiple instances of Firebase i.e. multiple projects, then you must pass the app instance to specify which project's auth that auth instance must use.
 export const auth = getAuth();
-console.log(`AUTH IS HERE!!!!!!!!!!!!!!!!!!`);
-console.log(auth);
 
 export const signInWithGooglePopup = () =>
   signInWithPopup(auth, googleProvider);
@@ -54,11 +51,7 @@ export const createUserDocumentFromAuth = async (
 
   const userDocRef = doc(db, 'users', userAuth.uid);
 
-  console.log(userDocRef);
-
   const userSnapshot = await getDoc(userDocRef);
-  console.log(userSnapshot);
-  console.log(userSnapshot.exists());
 
   if (!userSnapshot.exists()) {
     const { displayName, email } = userAuth;
@@ -95,9 +88,6 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 
 export const signOutUser = async () => {
   const res = await signOut(auth);
-  console.log(res);
-  console.log(auth);
-  console.log(auth.currentUser);
 };
 
 export const onAuthStateChangedListener = (callback) => {
