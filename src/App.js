@@ -11,7 +11,8 @@ const App = () => {
     <Routes>
       <Route path="/" element={<Navigation />}>
         <Route index element={<Home />} />
-        <Route path="shop" element={<Shop />} />
+        {/*React-router-dom takes a look in the path value and says Whenever I match this path inside the URL relative relevant to what my parent path is I am going to render this element (<Shop/>) */}
+        <Route path="shop/*" element={<Shop />} />
         <Route path="auth" element={<Authentication />} />
         <Route path="checkout" element={<Checkout />} />
       </Route>

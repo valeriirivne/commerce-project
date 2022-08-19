@@ -9,7 +9,16 @@ import {
   signOut,
   onAuthStateChanged,
 } from 'firebase/auth';
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  writeBatch,
+  query,
+  getDocs,
+} from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDd7fCqfzsHTBBJEjgdCxyG9g_cjM0d_Rg',
@@ -40,9 +49,48 @@ export const signInWithGoogleRedirect = () =>
 
 export const db = getFirestore();
 
+//we add new collection as well as new documents inside this collection
+export const addCollectionAndDocuments = async (
+  collectionKey, //for example users key inside the collection
+  objectsToAdd // the actual documents that we want to add
+) => {
+  const collectionRef = collection(db, collectionKey); //here we are looking for our instantiated db and collectionKey('users' or 'categories' i.e. )
+  // we need to instantiate a batch class
+  const batch = writeBatch(db);
+  // this batch instance allows us to attach a butch of different rights, deletes, sets. and only when we are ready to fire off the batch does the actual transaction begin. So what we are going to do is we need to create a bunch of set methods
+
+  objectsToAdd.forEach((object) => {
+    const docRef = doc(collectionRef, object.title.toLowerCase());
+    batch.set(docRef, object);
+  });
+
+  await batch.commit();
+  console.log('done');
+
+  // transaction is a word that represents  a successful unit of work to a database. A unit of work differs. It might be multiple sets of setting value into a collection
+  // Транзакції та пакетні записи
+};
+
+export const getCategoriesAndDocuments = async () => {
+  const collectionRef = collection(db, 'categories');
+  const q = query(collectionRef);
+
+  const querySnapshot = await getDocs(q);
+  // console.log(querySnapshot.docs);
+  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+    const { title, items } = docSnapshot.data();
+    // console.log(title);
+    // console.log(items);
+
+    acc[title.toLowerCase()] = items;
+    return acc;
+  }, {});
+
+  return categoryMap;
+};
+
 // first we need to see if there is existing document reference
 // refrence is a special type of object that firestore uses when talking about actual instance of document model
-
 export const createUserDocumentFromAuth = async (
   userAuth,
   additionalInformation = {}
