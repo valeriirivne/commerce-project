@@ -1,4 +1,4 @@
-import { CartItemContainer } from './cart-item.styles';
+import { CartItemContainer, ItemDetails } from './cart-item.styles';
 
 const CartItem = ({ cartItem }) => {
   const { name, imageUrl, price, quantity } = cartItem;
@@ -6,12 +6,12 @@ const CartItem = ({ cartItem }) => {
   return (
     <CartItemContainer>
       <img src={imageUrl} alt={name} />
-      <div className="item-details">
+      <ItemDetails>
         <span className="name">{name}</span>
         <span className="price">
           {quantity} * ${price}
         </span>
-      </div>
+      </ItemDetails>
     </CartItemContainer>
   );
 };
