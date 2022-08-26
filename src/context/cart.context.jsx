@@ -1,4 +1,6 @@
-import { createContext, useEffect, useState, useReducer } from 'react';
+import { createContext, useReducer } from 'react';
+
+import { createAction } from '../utils/reducer/reducer.utils';
 
 const addCartItem = (cartItems, productToAdd) => {
   //find if cartItems contains productToAdd
@@ -51,6 +53,11 @@ export const CartContext = createContext({
   cartTotal: 0,
 });
 
+const CART_ACTION_TYPES = {
+  SET_CART_ITEMS: 'SET_CART_ITEMS',
+  SET_IS_CART_OPEN: 'SET_IS_CART_OPEN',
+};
+
 //Reducers only only only store readable values
 const INITIAL_STATE = {
   isCartOpen: false,
@@ -63,13 +70,12 @@ const cartReducer = (state, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case 'SET_CART_ITEMS':
+    case CART_ACTION_TYPES.SET_CART_ITEMS:
       return {
         ...state,
         ...payload,
-        // cartItems: payload,
       };
-    case 'SET_IS_CART_OPEN':
+    case CART_ACTION_TYPES.SET_IS_CART_OPEN:
       return {
         ...state,
         isCartOpen: payload,
@@ -87,16 +93,6 @@ export const CartProvider = ({ children }) => {
 
   const { cartItems, cartCount, cartTotal, isCartOpen } = state;
 
-  // const cartCount = cartItems.reduce(
-  //   (total, cartItem) => total + cartItem.quantity,
-  //   0
-  // );
-
-  // const cartTotal = cartItems.reduce(
-  //   (total, cartItem) => total + cartItem.quantity * cartItem.price,
-  //   0
-  // );
-
   const updateCartItemReducer = (newCartItems) => {
     const newCartCount = newCartItems.reduce(
       (total, cartItem) => total + cartItem.quantity,
@@ -108,25 +104,27 @@ export const CartProvider = ({ children }) => {
       0
     );
 
-    dispatch({
-      type: 'SET_CART_ITEMS',
-      payload: {
+    dispatch(
+      createAction(CART_ACTION_TYPES.SET_CART_ITEMS, {
         cartItems: newCartItems,
         cartTotal: newCartTotal,
         cartCount: newCartCount,
-      },
-    });
+      })
+
+      //   {
+      //   type: CART_ACTION_TYPES.SET_CART_ITEMS,
+      //   payload: {
+      //     cartItems: newCartItems,
+      //     cartTotal: newCartTotal,
+      //     cartCount: newCartCount,
+      //   },
+      // });
+    );
   };
 
-  /////////////////////////////
-
-  // useEffect(() => {
-  //   const count = cartItems.reduce(
-  //     (total, cartItem) => total + cartItem.quantity,
-  //     0
-  //   );
-  //   setCartItemCount(count);
-  // }, [cartItems]);
+  const setIsCartOpen = (bool) => {
+    dispatch(createAction(CART_ACTION_TYPES.SET_IS_CART_OPEN, bool));
+  };
 
   // addItemToCart is going to be a function that triggers whenever a user clicks on <Button buttonType="inverted">Add to card</Button> in ProductCard Component, so that means what we gonna receive from the ProductCard Component is going to be a ProductToAdd(06:09 006 Add to Cart)
   const addItemToCart = (productToAdd) => {
@@ -136,7 +134,6 @@ export const CartProvider = ({ children }) => {
   };
 
   const removeItemFromCart = (cartItemToRemove) => {
-    // setCartItems(removeCartItem(cartItems, cartItemToRemove));
     const newCartItems = removeCartItem(cartItems, cartItemToRemove);
     updateCartItemReducer(newCartItems);
   };
@@ -147,8 +144,8 @@ export const CartProvider = ({ children }) => {
   };
 
   const value = {
-    isCartOpen: true,
-    setIsCartOpen: () => true,
+    isCartOpen,
+    setIsCartOpen,
     addItemToCart,
     cartItems,
     removeItemFromCart,
