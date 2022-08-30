@@ -18,15 +18,9 @@ export const USER_ACTION_TYPE = {
 };
 
 const userReducer = (state, action) => {
-  const { type, payload } = action;
-
   console.log('dispatched');
   console.log(action);
-  // I want you to give me back an object where the current user is equal to the payload because as I mentioned, the payload is going to store the value that is important for this reducer to know what to update this state value with.
-
-  // return {
-  //   currentUser: payload,
-  // };
+  const { type, payload } = action;
 
   switch (type) {
     case USER_ACTION_TYPE.SET_CURRENT_USER:
@@ -45,6 +39,7 @@ const INITIAL_STATE = {
 
 export const UserProvider = ({ children }) => {
   // const [currentUser, setCurrentUser] = useState(null);
+
   const [state, dispatch] = useReducer(userReducer, INITIAL_STATE);
 
   const { currentUser } = state;
@@ -52,6 +47,7 @@ export const UserProvider = ({ children }) => {
   console.log(state);
   console.log(currentUser);
 
+  //dispatch action based creators//action creator function that dispatches an action
   const setCurrentUser = (user) => {
     dispatch(createAction('SET_CURRENT_USER', user));
 
@@ -73,12 +69,3 @@ export const UserProvider = ({ children }) => {
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
-
-//Reducers as code are pretty simple, the pretty much functions that return back an object
-// The thing about reducers is that these reducers change the object that we get back, and the properties and the values inside them based on the action. But we also received something else, which is the current state.So as I mentioned, reducers return, turn back an object. This object is the state in the reducer. So what we get back is actually this current value from the reducer. And the reason why is sometimes you want to reference these values in order to derive what the next
-
-// const userReducer = (state, action) => {
-//   return {
-//     currentUser:
-//   }
-// }
