@@ -15,14 +15,17 @@ import Checkout from './routes/checkout/checkout.component';
 import { setCurrentUser } from './store/user/user.action';
 
 const App = () => {
+  console.log('APP COMPONENT IS RENDERING OR RE/RENDERING');
   const dispatch = useDispatch();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
+      console.log('USER is fired!!!!!!!!!!!!!!!!!!!!!!!');
       if (user) {
         createUserDocumentFromAuth(user);
       }
       dispatch(setCurrentUser(user));
+      // dispatch({ type: USER_ACTION_TYPE.SET_CURRENT_USER, payload: user });
     });
     return unsubscribe;
   }, []);

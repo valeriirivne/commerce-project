@@ -18,6 +18,7 @@ import {
   writeBatch,
   query,
   getDocs,
+  DocumentSnapshot,
 } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -76,17 +77,17 @@ export const getCategoriesAndDocuments = async () => {
   const q = query(collectionRef);
 
   const querySnapshot = await getDocs(q);
-  // console.log(querySnapshot.docs);
-  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
-    const { title, items } = docSnapshot.data();
-    // console.log(title);
-    // console.log(items);
 
-    acc[title.toLowerCase()] = items;
-    return acc;
-  }, {});
+  return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
 
-  return categoryMap;
+  // const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+  //   const { title, items } = docSnapshot.data();
+
+  //   acc[title.toLowerCase()] = items;
+  //   return acc;
+  // }, {});
+
+  // return categoryMap;
 };
 
 // first we need to see if there is existing document reference
