@@ -14,7 +14,16 @@ const Shop = () => {
   useEffect(() => {
     const getCategoriesMap = async () => {
       const categoriesArray = await getCategoriesAndDocuments('categories');
-      console.log(categoriesArray);
+
+      // categoriesArray:
+      //       [{…}, {…}, {…}, {…}, {…}]
+      // 0: {items: Array(9), title: 'Hats'}
+      // 1: {title: 'Jackets', items: Array(5)}
+      // 2: {title: 'Mens', items: Array(6)}
+      // 3: {title: 'Sneakers', items: Array(8)}
+      // 4: {items: Array(7), title: 'Womens'}
+
+      //Here we dispatch an action? in other words what we are doing is adding categoriesArray to the global state which is in root-reducer, so we add the result of categoriesReducer component({ categories: payload(which is categoriesArray) } ) with the help of action we dispatch it to the root reducer rootReducer = combineReducers({   user: userReducer   categories: categoriesReducer});
 
       dispatch(setCategories(categoriesArray));
       // dispatch({type: 'category/SET_CATEGORIES_MAP', payload: categoriesArray})

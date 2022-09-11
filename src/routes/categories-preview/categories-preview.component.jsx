@@ -7,8 +7,9 @@ import { useSelector } from 'react-redux';
 
 const CategoriesPreview = () => {
   // const { categoriesMap } = useContext(CategoriesContext);
-  // const categoriesMap = useSelector((state) => state.categories.categoriesMap);
+  //Here we use the state from redux with the help of useSelector, inside of useSelector we call selectCategoriesMap function from category.selector.js component, which in it's turn take state object which (state of redux) we can reach cause useSelector function gives us state object inside callback function, as an argument.
   const categoriesMap = useSelector(selectCategoriesMap);
+  // const categoriesMap = useSelector((state) => state.categories.categoriesMap);
 
   return (
     <Fragment>

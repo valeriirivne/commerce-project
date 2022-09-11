@@ -10,7 +10,6 @@ import {
 } from '../../utils/firebase/firebase.utils';
 
 // import './sign-in-form.styles.scss';
-
 const defaultFormFields = {
   email: '',
   password: '',

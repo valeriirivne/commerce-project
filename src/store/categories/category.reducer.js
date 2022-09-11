@@ -8,6 +8,7 @@ export const categoriesReducer = (
   state = CATEGORIES_INITIAL_STATE,
   action = {}
 ) => {
+  // console.log('CATEGORY REDUCER IS FIRED');
   const { type, payload } = action;
 
   switch (type) {

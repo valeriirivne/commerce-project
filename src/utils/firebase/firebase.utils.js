@@ -66,7 +66,6 @@ export const addCollectionAndDocuments = async (
   });
 
   await batch.commit();
-  console.log('done');
 
   // transaction is a word that represents  a successful unit of work to a database. A unit of work differs. It might be multiple sets of setting value into a collection
   // Транзакції та пакетні записи

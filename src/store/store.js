@@ -7,6 +7,7 @@ import { compose, applyMiddleware } from 'redux';
 
 import { rootReducer } from './root-reducer';
 
+// console.log('STORE IS FIRED');
 // Middleware just catches an action before the action hits the reducer
 const loggerMiddleware = (store) => (next) => (action) => {
   // we just want to log appropriate action
