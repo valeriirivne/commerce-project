@@ -10,6 +10,7 @@ import { ReactComponent as CrwnLogo } from '../../assets/crown.svg';
 import { CartContext } from '../../context/cart.context';
 
 import { signOutUser } from '../../utils/firebase/firebase.utils';
+import { selectCurrentUser } from '../../store/user/user.selector';
 import { selectIsCartOpen } from '../../store/cart/cart.selector';
 
 // import './navigation.styles.scss';
@@ -19,7 +20,6 @@ import {
   NavLinks,
   NavLink,
 } from './navigation.styles';
-import { selectCurrentUser } from '../../store/user/user.selector';
 
 const Navigation = () => {
   // console.log('NAVIGATION IS RENDERING OR RERENDERING');

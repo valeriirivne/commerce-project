@@ -1,5 +1,12 @@
-import { CartContext } from '../../context/cart.context';
-import { useContext } from 'react';
+// import { CartContext } from '../../context/cart.context';
+// import { useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCartItems } from '../../store/cart/cart.selector';
+import {
+  addItemToCart,
+  clearItemFromCart,
+  removeItemFromCart,
+} from '../../store/cart/cart.action';
 
 import {
   CheckoutItemContainer,
@@ -13,14 +20,20 @@ import {
 
 const CheckoutItem = ({ cartItem }) => {
   const { name, imageUrl, price, quantity } = cartItem;
-  const { clearItemFromCart, addItemToCart, removeItemFromCart } =
-    useContext(CartContext);
+  const dispatch = useDispatch();
+  // const { clearItemFromCart, addItemToCart, removeItemFromCart } =
+  //   useContext(CartContext);
+  // here we need to take our cartItems from redux global state with the help useSelector, which gives us as an argument global state object. from inside we return the piece of state we need ans use it inside our component. I.e:
+  const cartItems = useSelector(selectCartItems);
+  //up we use our custom selectCartItems function which returns us the piece from global redux state we need. In our case we need cartItems from our cart from rootReducer
 
-  const clearItemHandler = () => clearItemFromCart(cartItem);
+  const clearItemHandler = () =>
+    dispatch(clearItemFromCart(cartItems, cartItem));
 
-  const addItemHandler = () => addItemToCart(cartItem);
+  const addItemHandler = () => dispatch(addItemToCart(cartItems, cartItem));
 
-  const removeItemHandler = () => removeItemFromCart(cartItem);
+  const removeItemHandler = () =>
+    dispatch(removeItemFromCart(cartItems, cartItem));
 
   return (
     <CheckoutItemContainer>

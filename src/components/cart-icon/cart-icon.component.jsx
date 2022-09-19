@@ -1,5 +1,5 @@
 // import { useContext } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { setIsCartOpen } from '../../store/cart/cart.action';
 import {
   selectCartItems,
@@ -7,7 +7,6 @@ import {
   selectCartCount,
   selectCartTotal,
 } from '../../store/cart/cart.selector';
-import { useDispatch } from 'react-redux';
 
 // import { CartContext } from '../../context/cart.context';
 
@@ -17,7 +16,7 @@ const CartIcon = () => {
   // const { isCartOpen, setIsCartOpen, cartCount } =
   //   useContext(CartContext);
   const dispatch = useDispatch();
-
+  //useSelector gives us redux state which we use in callback function inside useSelector and return the piece of state we need
   const isCartOpen = useSelector(selectIsCartOpen);
   console.log(isCartOpen);
   const cartCount = useSelector(selectCartCount);
